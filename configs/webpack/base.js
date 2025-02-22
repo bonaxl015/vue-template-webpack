@@ -46,7 +46,7 @@ const base = {
         loader: 'vue-loader'
       },
       {
-        test: /\.(css)$/,
+        test: /\.(css|scss)$/,
         use: [
           'style-loader',
           {
@@ -58,17 +58,18 @@ const base = {
             }
           }
         ],
-        include: [/\.module\.css$/],
+        include: [/\.module\.css$/, /\.module\.scss$/],
         exclude: [/node_modules/]
       },
       {
-        test: /\.(css)$/,
+        test: /\.(css|scss)$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          postCSSLoader
+          postCSSLoader,
+          'sass-loader'
         ],
-        exclude: [/node_modules/, /\.module\.css$/]
+        exclude: [/node_modules/, /\.module\.css$/, /\.module\.scss$/]
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/,

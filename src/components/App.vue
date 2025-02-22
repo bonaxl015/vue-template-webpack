@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <h1>Hello Vue 3</h1>
+    <h1 class="header">Hello Vue 3</h1>
     <h1>{{ count }}</h1>
     <button @click="increment">increment</button>
     <button @click="decrement">decrement</button>
@@ -21,9 +21,10 @@ const decrement = () => {
 };
 </script>
 
-<style scoped>
-.app {
-  text-align: center;
-  margin-top: 50px;
+<style lang="scss" scoped>
+@use '../styles/base.scss';
+
+.header {
+  color: red;
 }
 </style>
