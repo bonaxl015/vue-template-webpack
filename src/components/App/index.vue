@@ -5,10 +5,13 @@
     <button @click="increment">increment</button>
     <button @click="decrement">decrement</button>
   </div>
+  <ThemeSwitch />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
+
+import ThemeSwitch from '../ThemeSwitch/index.vue';
 
 const count = ref<number>(0);
 
@@ -22,8 +25,6 @@ const decrement = () => {
 </script>
 
 <style lang="scss" scoped>
-@use '../styles/base.scss';
-
 .header {
   color: red;
 }
