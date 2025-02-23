@@ -55,12 +55,13 @@ module.exports = [
   {
     files: ['**/*.js'],
     languageOptions: {
-      sourceType: 'commonjs'
+      sourceType: 'module'
     }
   },
   {
     languageOptions: {
       globals: {
+        ...globals.browser,
         ...globals.node,
         ...globals.jest
       }
