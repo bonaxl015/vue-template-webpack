@@ -49,17 +49,25 @@ const base = {
         test: /\.(css|scss)$/,
         use: [
           'style-loader',
+          'css-loader',
+          'sass-loader'
+        ],
+        include: /node_modules/
+      },
+      {
+        test: /\.module\.(css|scss)$/,
+        use: [
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
-              import: true,
               modules: true,
               sourceMap: true
             }
-          }
+          },
+          'sass-loader'
         ],
-        include: [/\.module\.css$/, /\.module\.scss$/],
-        exclude: [/node_modules/]
+        exclude: /node_modules/
       },
       {
         test: /\.(css|scss)$/,
@@ -77,7 +85,7 @@ const base = {
           {
             loader: 'file-loader',
             options: {
-              name: 'assets/[name].[hash].[ext]',
+              name: '[name].[ext]',
               outputPath: 'assets',
               publicPath: 'assets'
             }
@@ -90,7 +98,7 @@ const base = {
           {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[name].[hash].[ext]',
+              name: '[name].[ext]',
               outputPath: 'fonts',
               publicPath: 'fonts'
             }

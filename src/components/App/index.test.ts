@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 
-import App from './App.vue';
+import App from './index.vue';
 
 describe('App.vue', () => {
   it('renders a message', () => {

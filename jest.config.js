@@ -10,13 +10,17 @@ module.exports = {
     '^.+\\.ts$': 'babel-jest',
     '^.+\\.js$': 'babel-jest'
   },
-  transformIgnorePatterns: ['/node_modules/'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!vuetify)'
+  ],
   coverageReporters: ["text", "json-summary"],
   moduleNameMapper: {
     '\\.(css|less|scss|sss|styl)$': 'jest-css-modules',
     '^@assets/(.*)$': getPathMapper('assets'),
     '^@components/(.*)$': getPathMapper('components'),
+    '^@composables/(.*)$': getPathMapper('composables'),
     '^@pages/(.*)$': getPathMapper('pages'),
+    '^@plugins/(.*)$': getPathMapper('plugins'),
     '^@services/(.*)$': getPathMapper('services'),
     '^@utils/(.*)$': getPathMapper('utils')
   },
