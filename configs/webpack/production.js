@@ -3,6 +3,7 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { DefinePlugin } = require('webpack');
 const packageJson = require('../../package.json');
 
 const version = packageJson.version;
@@ -50,39 +51,14 @@ const production = (
         version,
         title
       }
+    }),
+    new DefinePlugin({
+      __VUE_OPTIONS_API__: JSON.stringify(false),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false)
     })
   ],
-  stats: 'errors-warnings',
-  module: {
-    rules: [
-      {
-        test: /\.(png|jpe?g|gif|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'assets/[name].[hash].[ext]',
-              outputPath: `./v${version}/assets`,
-              publicPath: 'assets'
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'fonts/[name].[hash].[ext]',
-              outputPath: `./v${version}/fonts`,
-              publicPath: 'fonts'
-            }
-          }
-        ]
-      }
-    ]
-  }
+  stats: 'errors-warnings'
 });
 
 module.exports = production;

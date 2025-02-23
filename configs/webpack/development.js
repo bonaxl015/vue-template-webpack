@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const { HotModuleReplacementPlugin, DefinePlugin } = require('webpack');
 
 const development = ({ env = {}, title = 'Default Title', port = 8888 }) => ({
   mode: 'development',
@@ -37,6 +38,12 @@ const development = ({ env = {}, title = 'Default Title', port = 8888 }) => ({
       failOnError: false,
       cache: true,
       threads: true
+    }),
+    new HotModuleReplacementPlugin(),
+    new DefinePlugin({
+      __VUE_OPTIONS_API__: JSON.stringify(false),
+      __VUE_PROD_DEVTOOLS__: JSON.stringify(true),
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false)
     })
   ],
   devServer: {
@@ -44,7 +51,10 @@ const development = ({ env = {}, title = 'Default Title', port = 8888 }) => ({
     static: path.join(__dirname, '../../dist'),
     compress: true,
     open: true,
-    port
+    port,
+    hot: true,
+    liveReload: true,
+    watchFiles: ["../../src/**/*"]
   }
 });
 
