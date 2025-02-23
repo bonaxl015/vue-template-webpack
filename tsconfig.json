@@ -11,8 +11,11 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "@assets/*": ["./src/assets/*"],
+      "@composables/*": ["./src/composables/*"],
       "@components/*": ["./src/components/*"],
       "@pages/*": ["./src/pages/*"],
+      "@plugins/*": ["./src/plugins/*"],
       "@services/*": ["./src/services/*"],
       "@utils/*": ["./src/utils/*"]
     },
