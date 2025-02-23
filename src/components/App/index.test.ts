@@ -2,10 +2,16 @@ import { mount } from '@vue/test-utils';
 
 import App from './index.vue';
 
-describe('App.vue', () => {
-  it('renders a message', () => {
+jest.mock('vue-router', () => ({
+  RouterView: {
+    template: '<div data-test="router-view"></div>'
+  }
+}));
+
+describe('Given App component', () => {
+  it('renders the component without issues', () => {
     const wrapper = mount(App);
 
-    expect(wrapper.text()).toContain('Hello Vue 3');
+    expect(wrapper.find('[data-test="router-view"]').exists()).toBe(true);
   });
 });
