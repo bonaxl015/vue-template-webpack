@@ -1,3 +1,3 @@
 <template>
-  <v-icon icon="mdi-moon-waning-crescent" color="blue-darken-4"></v-icon>
+  <v-icon icon="mdi-moon-waning-crescent" color="white"></v-icon>
 </template>

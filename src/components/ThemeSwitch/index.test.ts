@@ -8,15 +8,13 @@ jest.mock('vuetify', () => ({
 }));
 
 jest.mock('@assets/icons/DayIcon.vue', () => ({
-  default: {
-    template: '<span data-test="day-icon"></span>'
-  }
+  name: 'DayIcon',
+  template: '<span data-test="day-icon"></span>'
 }));
 
 jest.mock('@assets/icons/NightIcon.vue', () => ({
-  default: {
-    template: '<span data-test="night-icon"></span>'
-  }
+  name: 'NightIcon',
+  template: '<span data-test="night-icon"></span>'
 }));
 
 describe('Given ThemeSwitch component', () => {
@@ -34,12 +32,15 @@ describe('Given ThemeSwitch component', () => {
 
   it('renders v-switch component', () => {
     const wrapper = shallowMount(ThemeSwitch);
+
     expect(wrapper.find('v-switch').exists()).toBe(true);
   });
 
   it('toggles theme on switch change', async () => {
     const wrapper = shallowMount(ThemeSwitch);
+
     await wrapper.find('v-switch').trigger('change');
+
     expect(themeMock.global.name.value).toBe('dark');
   });
 });

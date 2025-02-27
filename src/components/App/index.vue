@@ -1,11 +1,13 @@
 <template>
-  <div class="app">
-    <RouterView />
-  </div>
+  <v-app>
+    <Header />
+    <Content />
+    <Footer />
+  </v-app>
 </template>
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
+import Header from '../Header/index.vue';
+import Content from '../Content/index.vue';
+import Footer from '../Footer/index.vue';
 </script>
-
-<style lang="scss" scoped></style>

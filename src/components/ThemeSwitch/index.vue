@@ -4,8 +4,8 @@
       :prepend-icon="DayIcon"
       :append-icon="NightIcon"
       @change="toggleTheme"
-      base-color="amber-darken-2"
-      color="blue-darken-4"
+      base-color="white"
+      color="white"
       inset
       center-affix
     ></v-switch>
