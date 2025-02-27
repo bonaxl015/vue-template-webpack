@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     strict: true,
     sensitive: true,
