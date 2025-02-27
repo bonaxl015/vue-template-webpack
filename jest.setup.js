@@ -6,11 +6,8 @@ global.console = {
   error: jest.fn()
 };
 
-jest.mock('vuetify', () => ({
-  useTheme: jest.fn(() => ({
-    global: {
-      current: { value: { dark: false } },
-      name: { value: 'light' },
-    },
-  })),
-}));
+global.ResizeObserver = class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
