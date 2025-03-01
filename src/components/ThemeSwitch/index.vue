@@ -8,11 +8,13 @@
       color="white"
       inset
       center-affix
+      hide-details
     ></v-switch>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { onMounted } from 'vue';
 import { useTheme } from 'vuetify';
 
 import DayIcon from '@assets/icons/DayIcon.vue';
@@ -20,24 +22,22 @@ import NightIcon from '@assets/icons/NightIcon.vue';
 
 const theme = useTheme();
 
+onMounted(() => {
+  const initialThemeValue = localStorage.getItem('theme') ?? 'light';
+
+  theme.global.name.value = initialThemeValue;
+});
+
 function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
+  const themeValue = theme.global.current.value?.dark ? 'light' : 'dark';
+
+  theme.global.name.value = themeValue;
+  localStorage.setItem('theme', themeValue);
 }
 </script>
 
 <style lang="scss" scoped>
 .switch-wrapper {
   width: 140px;
-}
-
-::v-deep(.v-input__details) {
-  padding: 0;
-  height: 0px;
-  min-height: unset;
-}
-
-::v-deep(.v-messages) {
-  height: 0px;
-  min-height: unset;
 }
 </style>
