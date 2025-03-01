@@ -24,7 +24,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue';
 import { useDisplay } from 'vuetify';
 
 import { ButtonNav } from './types';
