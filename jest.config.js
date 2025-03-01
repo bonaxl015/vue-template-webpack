@@ -1,6 +1,7 @@
 const getPathMapper = (folderName) => `<rootDir>/src/${folderName}/$1`
 
 module.exports = {
+  collectCoverage: true,
   displayName: 'vue-template',
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
