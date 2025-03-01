@@ -18,18 +18,18 @@ export const libraryListLeft = [
     key: '4',
     label: 'Typescript',
     value: 'typescript'
-  },
-  {
-    key: '5',
-    label: 'Babel',
-    value: 'babel'
   }
 ];
 
 export const libraryListRight = [
   {
+    key: '5',
+    label: 'Babel',
+    value: 'babel'
+  },
+  {
     key: '6',
-    label: 'EsLint',
+    label: 'Eslint',
     value: 'eslint'
   },
   {
@@ -41,10 +41,5 @@ export const libraryListRight = [
     key: '8',
     label: 'Prettier',
     value: 'prettier'
-  },
-  {
-    key: '9',
-    label: 'Vuetify',
-    value: 'vuetify'
   }
 ];
