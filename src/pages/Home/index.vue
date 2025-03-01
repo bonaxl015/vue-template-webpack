@@ -2,7 +2,7 @@
   <v-container class="fill-height text-center" aria-label="home-page">
     <v-row align="center" justify="center">
       <v-col cols="12">
-        <h1 class="text-h4 font-weight-bold mb-4">My Vue Template</h1>
+        <h1 class="text-h4 font-weight-bold mb-4">Vue Template</h1>
         <p class="text-subtitle mb-6">Libraries used in this project:</p>
         <v-container fluid max-width="540">
           <v-row no-gutters>
