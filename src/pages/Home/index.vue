@@ -2,6 +2,12 @@
   <v-container class="fill-height text-center" aria-label="home-page">
     <v-row align="center" justify="center">
       <v-col cols="12">
+        <v-img
+          :aspect-ratio="1"
+          class="vue-logo"
+          :src="vueImage"
+          width="260"
+        ></v-img>
         <h1 class="text-h4 font-weight-bold mb-4">Vue Template</h1>
         <p class="text-subtitle mb-6">Libraries used in this project:</p>
         <v-container fluid max-width="540">
@@ -40,7 +46,16 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import vueImage from '@assets/images/vue.png';
+
 import { libraryListLeft, libraryListRight } from './constants/checkboxList';
 
 const checked = ref(true);
 </script>
+
+<style lang="scss">
+.vue-logo {
+  justify-self: center;
+  align-self: center;
+}
+</style>
