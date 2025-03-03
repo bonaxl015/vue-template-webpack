@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
-    :model-value="isOpen"
-    @update:model-value="emit('update:isOpen')"
+    v-model="props.isOpen"
     :location="xs ? 'left' : undefined"
     temporary
     mobile
@@ -32,19 +31,15 @@ const props = defineProps({
   isOpen: {
     type: Boolean,
     required: true
-  },
-  toggleDrawer: {
-    type: Function,
-    required: true
   }
 });
 
 const { xs } = useDisplay();
 
-const emit = defineEmits(['update:isOpen']);
+const emit = defineEmits(['toggleDrawer']);
 
 const handleClick = (): void => {
-  props.toggleDrawer();
+  emit('toggleDrawer');
 };
 
 const buttonNavList: ButtonNav[] = [

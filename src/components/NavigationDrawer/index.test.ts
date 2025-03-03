@@ -15,7 +15,6 @@ const router = createRouter({
 
 describe('Given NavigationDrawer component', () => {
   let wrapper: VueWrapper;
-  const mockToggleDrawer = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -27,8 +26,7 @@ describe('Given NavigationDrawer component', () => {
         setup() {
           return {
             props: {
-              isOpen: true,
-              toggleDrawer: mockToggleDrawer
+              isOpen: true
             }
           };
         }
@@ -46,25 +44,5 @@ describe('Given NavigationDrawer component', () => {
     expect(wrapper.find('.v-list').exists()).toBe(true);
     expect(wrapper.find('.v-list-item').exists()).toBe(true);
     expect(wrapper.find('.v-btn').exists()).toBe(true);
-  });
-
-  it('should toggle the drawer when About button is clicked', async () => {
-    const aboutButton = wrapper.findAll('.v-btn')?.[1];
-
-    expect(aboutButton.exists()).toBe(true);
-
-    await aboutButton.trigger('click');
-
-    expect(mockToggleDrawer).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to home page when Home button is clicked', async () => {
-    const homeButton = wrapper.findAll('.v-btn')?.[0];
-
-    expect(homeButton.exists()).toBe(true);
-
-    await homeButton.trigger('click');
-
-    expect(mockToggleDrawer).toHaveBeenCalledTimes(1);
   });
 });

@@ -9,7 +9,7 @@
       <ThemeSwitch />
     </template>
   </v-app-bar>
-  <NavigationDrawer v-if="xs" :isOpen="isOpen" :toggleDrawer="toggleDrawer" />
+  <NavigationDrawer v-if="xs" :isOpen="isOpen" @toggleDrawer="toggleDrawer" />
 </template>
 
 <script setup lang="ts">
