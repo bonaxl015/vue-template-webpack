@@ -75,5 +75,22 @@
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
     "vuetify": "^3.7.13"
+  },
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      "ie > 6",
+      ">1%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
+  "engines": {
+    "npm": ">=10",
+    "node": ">=20"
   }
 }
