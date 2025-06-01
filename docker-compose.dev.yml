@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  webpack-vue-dev:
+    container_name: webpack-vue-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '7777:7777'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - YARN_CACHE_FOLDER=/usr/local/share/.cache/yarn
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge
