@@ -1,8 +1,5 @@
-version: '3.8'
-
 services:
   webpack-vue:
-    container_name: webpack-vue
     build:
       context: .
       dockerfile: Dockerfile

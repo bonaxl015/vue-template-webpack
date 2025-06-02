@@ -9,10 +9,12 @@
     "lint": "eslint --fix",
     "prepare": "rm -rf ./dist",
     "start:build:local": "node scripts/start/buildLocal.js",
+    "start:build:prod": "docker compose -f docker-compose.yml up --build",
     "start:dev": "node scripts/start/dev.js",
     "start": "docker compose -f docker-compose.dev.yml up --build",
     "stop": "docker compose down",
     "stop:build:local": "node scripts/stop/buildLocal.js",
+    "stop:build:prod": "docker compose down",
     "test": "jest"
   },
   "keywords": [
