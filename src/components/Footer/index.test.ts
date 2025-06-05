@@ -28,6 +28,6 @@ describe('Given Footer component', () => {
     expect(wrapper.find('.v-footer').exists()).toBe(true);
     expect(wrapper.find('.v-row').exists()).toBe(true);
     expect(wrapper.find('.v-col').exists()).toBe(true);
-    expect(wrapper.find('.v-col').text()).toBe(`Copyright ${getYear}`);
+    expect(wrapper.find('.v-col').text()).toBe(`Copyright test ${getYear}`);
   });
 });
