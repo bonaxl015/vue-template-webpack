@@ -60,7 +60,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.host.url=$SONAR_HOST \
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.token=$SONAR_TOKEN
         env:
           SONAR_HOST: https://sonarcloud.io
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
