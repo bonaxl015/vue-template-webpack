@@ -61,6 +61,29 @@ jobs:
           SONAR_HOST: https://sonarcloud.io
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+  snyk-analysis:
+    runs-on: ubuntu-latest
+    needs: sonarcloud-analysis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Snyk Security Scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          npm install -g snyk
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk test --all-projects
+
   docker:
     name: Docker Build and Push
     runs-on: ubuntu-latest
