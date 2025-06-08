@@ -95,6 +95,7 @@ jobs:
     name: OWASP ZAP DAST Scan
     runs-on: ubuntu-latest
     needs: build
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -109,12 +110,12 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Start application locally
-        run: yarn start:dev & sleep 10
+        run: yarn start:build:prod & sleep 10
 
       - name: Run OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.14.0
         with:
-          target: 'http://localhost:7777'
+          target: 'http://localhost:80'
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
