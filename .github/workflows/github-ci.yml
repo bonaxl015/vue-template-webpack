@@ -99,17 +99,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'yarn'
+      - name: Build Docker Image
+        run: docker build -t vue-webpack .
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Start application locally
-        run: yarn start:dev & sleep 10
+      - name: Run Docker Container
+        run: |
+          docker run -d --name my-app-container -p 7777:80 vue-webpack
+          sleep 10
 
       - name: Run OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.14.0
@@ -117,6 +113,10 @@ jobs:
           target: 'http://localhost:7777'
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Stop Docker Container
+        if: always()
+        run: docker stop vue-webpack && docker rm vue-webpack
 
   docker:
     name: Docker Build and Push
