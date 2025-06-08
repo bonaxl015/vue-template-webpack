@@ -61,8 +61,8 @@ jobs:
           SONAR_HOST: https://sonarcloud.io
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  snyk-analysis:
-    name: Snyk Security Check
+  snyk-sca-analysis:
+    name: Snyk SCA Scan
     runs-on: ubuntu-latest
     needs: build
 
@@ -87,48 +87,37 @@ jobs:
           snyk auth ${{ secrets.SNYK_TOKEN }}
           snyk test --all-projects
 
-  zap-dast:
+  owasp-dast-scan:
     name: OWASP ZAP DAST Scan
     runs-on: ubuntu-latest
     needs: build
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create Docker network
-        run: docker network create zap-net
-
-      - name: Build and run app container
-        run: |
-          docker build -t myapp:latest .
-          docker run -d --rm --network zap-net --name myapp -p 7777:7777 myapp
-          sleep 10  # Give app time to start
-
-      - name: Run ZAP Scan inside Docker
-        run: |
-          docker run --rm --network zap-net \
-            -v $(pwd):/zap/wrk/:rw \
-            ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
-            -t http://myapp:7777 \
-            -r zap_report.html -x zap_report.xml || true
-
-      - name: Upload ZAP HTML Report
-        uses: actions/upload-artifact@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          name: zap-html-report
-          path: zap_report.html
+          node-version: '20'
+          cache: 'yarn'
 
-      - name: Upload ZAP XML Report
-        uses: actions/upload-artifact@v4
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Start application locally
+        run: yarn start:dev & sleep 10
+
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.3.0
         with:
-          name: zap-xml-report
-          path: zap_report.xml
+          target: 'http://localhost:7777'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
   docker:
     name: Docker Build and Push
     runs-on: ubuntu-latest
-    needs: [sonarqube, snyk-analysis, zap-dast]
+    needs: [sonarqube, snyk-sca-analysis, owasp-dast-scan]
     env:
       IMAGE_NAME: bonaxl015/vue-template
     steps:
