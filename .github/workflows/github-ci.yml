@@ -97,65 +97,27 @@ jobs:
     needs: build
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create Docker network
-        run: docker network create zap-net
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
 
-      - name: Build web app image
-        run: docker build -t vue-webpack .
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-      - name: Start web app container
-        run: |
-          docker run -d --rm \
-            --name vue-webpack-container \
-            --network zap-net \
-            -p 80:80 vue-webpack
-
-      - name: Wait for app to be ready
-        run: |
-          for i in {1..5}; do
-            if docker run --rm --network zap-net curlimages/curl:7.87.0 curl -s http://vue-webpack-container:80 > /dev/null; then
-              echo "App is up!";
-              break;
-            fi
-            echo "Waiting for app to be ready ($i)..."
-            sleep 3
-          done
-
-      - name: Set write permissions
-        run: sudo chmod -R a+w ${{ github.workspace }}
+      - name: Start application locally
+        run: yarn start:build:prod & sleep 10
 
       - name: Run OWASP ZAP Baseline Scan
-        run: |
-          docker run --rm \
-            --network zap-net \
-            -v ${{ github.workspace }}:/zap/wrk/:rw \
-            ghcr.io/zaproxy/zaproxy:stable \
-            zap-baseline.py \
-              -t http://vue-webpack-container:80 \
-              -J zap_report.json \
-              -r zap_report.html \
-              -w zap_report.md \
-              -x zap_report.xml \
-              -I
-
-      - name: Upload ZAP Report
-        uses: actions/upload-artifact@v4
+        uses: zaproxy/action-baseline@v0.14.0
         with:
-          name: zap-report
-          path: |
-            zap_report.json
-            zap_report.html
-            zap_report.md
-            zap_report.xml
-
-      - name: Cleanup containers
-        if: always()
-        run: |
-          docker stop vue-webpack-container || true
-          docker network rm zap-net || true
+          target: 'http://localhost:80'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
   docker:
     name: Docker Build and Push
