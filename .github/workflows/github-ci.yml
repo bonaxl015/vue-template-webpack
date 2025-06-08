@@ -61,10 +61,36 @@ jobs:
           SONAR_HOST: https://sonarcloud.io
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+  snyk-analysis:
+    name: Snyk Security Check
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Snyk Security Scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          npm install -g snyk
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk test --all-projects
+
   docker:
     name: Docker Build and Push
     runs-on: ubuntu-latest
-    needs: sonarqube
+    needs: [sonarqube, snyk-analysis]
     env:
       IMAGE_NAME: bonaxl015/vue-template
     steps:
