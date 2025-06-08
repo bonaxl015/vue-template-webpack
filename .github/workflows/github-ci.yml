@@ -118,6 +118,9 @@ jobs:
           target: 'http://localhost:80'
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      
+      - name: Stop application locally
+        run: yarn stop:build:prod
 
   docker:
     name: Docker Build and Push
