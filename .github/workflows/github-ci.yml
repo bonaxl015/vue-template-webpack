@@ -111,12 +111,12 @@ jobs:
           docker run -d --rm \
             --name vue-webpack-container \
             --network zap-net \
-            -p 7777:80 vue-webpack
+            -p 80:80 vue-webpack
 
       - name: Wait for app to be ready
         run: |
           for i in {1..5}; do
-            if curl --fail http://localhost:7777; then
+            if curl --fail http://localhost:80; then
               echo "App is up!";
               break;
             fi
