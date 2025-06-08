@@ -116,7 +116,7 @@ jobs:
       - name: Wait for app to be ready
         run: |
           for i in {1..5}; do
-            if curl --fail http://localhost:80; then
+            if docker run --rm --network zap-net curlimages/curl:7.87.0 curl -s http://vue-webpack-container:80 > /dev/null; then
               echo "App is up!";
               break;
             fi
