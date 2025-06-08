@@ -103,30 +103,31 @@ jobs:
       - name: Create Docker network
         run: docker network create zap-net
 
-      - name: Build web app Docker image
+      - name: Build web app image
         run: docker build -t vue-webpack .
 
-      - name: Run app container
+      - name: Start web app container
         run: |
           docker run -d --rm \
             --name vue-webpack-container \
             --network zap-net \
             -p 7777:80 vue-webpack
-          
-          # Wait for app to be ready
-          for i in {1..10}; do
-            if curl -s http://localhost:7777 > /dev/null; then
+
+      - name: Wait for app to be ready
+        run: |
+          for i in {1..5}; do
+            if curl --fail http://localhost:7777; then
               echo "App is up!";
               break;
-            fi;
-            echo "Waiting for app... ($i)";
-            sleep 3;
+            fi
+            echo "Waiting for app to be ready ($i)..."
+            sleep 3
           done
 
       - name: Set write permissions
         run: sudo chmod -R a+w ${{ github.workspace }}
 
-      - name: Run ZAP Baseline Scan
+      - name: Run OWASP ZAP Baseline Scan
         run: |
           docker run --rm \
             --network zap-net \
@@ -150,7 +151,7 @@ jobs:
             zap_report.md
             zap_report.xml
 
-      - name: Cleanup
+      - name: Cleanup containers
         if: always()
         run: |
           docker stop vue-webpack-container || true
