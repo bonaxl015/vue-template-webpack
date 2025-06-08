@@ -108,22 +108,38 @@ jobs:
 
       - name: Run app container
         run: |
-          docker run -d --rm --name vue-webpack-container --network zap-net -p 7777:80 vue-webpack
-          sleep 10
+          docker run -d --rm \
+            --name vue-webpack-container \
+            --network zap-net \
+            -p 7777:80 vue-webpack
+          
+          # Wait for app to be ready
+          for i in {1..10}; do
+            if curl -s http://localhost:7777 > /dev/null; then
+              echo "App is up!";
+              break;
+            fi;
+            echo "Waiting for app... ($i)";
+            sleep 3;
+          done
+
+      - name: Set write permissions
+        run: sudo chmod -R a+w ${{ github.workspace }}
 
       - name: Run ZAP Baseline Scan
         run: |
-          docker run --rm --network zap-net \
+          docker run --rm \
+            --network zap-net \
             -v ${{ github.workspace }}:/zap/wrk/:rw \
             ghcr.io/zaproxy/zaproxy:stable \
             zap-baseline.py \
-            -t http://vue-webpack-container:80 \
-            -J zap_report.json \
-            -r zap_report.html \
-            -w zap_report.md \
-            -x zap_report.xml \
-            -I
-          
+              -t http://vue-webpack-container:80 \
+              -J zap_report.json \
+              -r zap_report.html \
+              -w zap_report.md \
+              -x zap_report.xml \
+              -I
+
       - name: Upload ZAP Report
         uses: actions/upload-artifact@v4
         with:
