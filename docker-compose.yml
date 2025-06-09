@@ -6,8 +6,6 @@ services:
     restart: unless-stopped
     ports:
       - '80:80'
-    volumes:
-      - .:/app
     environment:
       - NODE_ENV=production
       - YARN_CACHE_FOLDER=/usr/local/share/.cache/yarn
