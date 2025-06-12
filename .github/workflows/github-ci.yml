@@ -110,7 +110,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: vue-template-app
-          args: --file=Dockerfile --sarif-file-output=snyk-docker.sarif
+          args: --file=Dockerfile --sarif-file-output=snyk-docker-scan.sarif
 
       - name: Check if SARIF file exists
         run: |
