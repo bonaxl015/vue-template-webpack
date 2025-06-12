@@ -185,7 +185,7 @@ jobs:
           git rev-parse --abbrev-ref HEAD
           git push origin HEAD:master --follow-tags
         env:
-          GITHUB_TOKEN: ${{ secrets.CLASSIC_PERSONAL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PUSH_PAT }}
 
       - name: Bump patch version
         id: bump
