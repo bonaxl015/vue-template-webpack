@@ -9,15 +9,15 @@ const development = ({ env = {}, title = 'Default Title', port = 8888 }) => ({
   devtool: 'source-map',
   entry: './src/index.ts',
   output: {
-    filename: 'index.[hash].js',
+    filename: 'index.[fullhash].js',
     path: path.join(__dirname, '../../dist'),
     sourceMapFilename: '[file].map'
   },
   stats: 'normal',
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'styles.[hash].css',
-      chunkFilename: '[id].[hash].css'
+      filename: 'styles.[fullhash].css',
+      chunkFilename: '[id].[fullhash].css'
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../../public/index.html'),
@@ -52,9 +52,8 @@ const development = ({ env = {}, title = 'Default Title', port = 8888 }) => ({
     compress: true,
     open: true,
     port,
-    hot: true,
     liveReload: true,
-    watchFiles: ["../../src/**/*"]
+    watchFiles: ['../../src/**/*']
   }
 });
 
