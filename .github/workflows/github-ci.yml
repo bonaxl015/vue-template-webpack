@@ -188,6 +188,9 @@ jobs:
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
+      - name: Try dry-run git push
+        run: git push --dry-run origin HEAD:master
+
       - name: Push version commit and tags
         run: git push origin HEAD:master --follow-tags
 
