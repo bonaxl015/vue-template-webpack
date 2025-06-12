@@ -82,14 +82,19 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-
+      
       - name: Snyk Security Scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          npm install -g snyk
-          snyk auth ${{ secrets.SNYK_TOKEN }}
-          snyk test --all-projects
+        with:
+          args: --sarif-file-output=snyk.sarif
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
 
   owasp-dast-scan:
     name: OWASP ZAP DAST Scan
