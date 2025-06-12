@@ -179,7 +179,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://${{ secrets.CLASSIC_PERSONAL_TOKEN }}@github.com/${{ github.repository }}
           git push origin HEAD:master --follow-tags
 
 
