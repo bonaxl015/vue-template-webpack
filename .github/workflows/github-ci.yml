@@ -176,10 +176,16 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GH_PUSH_PAT }}@github.com/${{ github.repository }}
           git checkout master
 
-      - name: Debug Git Remote
+      - name: Debug git push permissions
         run: |
-          git remote get-url origin
-          git branch --show-current
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git remote -v
+          git branch
+          git status
+          git rev-parse --abbrev-ref HEAD
+          git push origin HEAD:master --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.CLASSIC_PERSONAL_TOKEN }}
 
       - name: Bump patch version
         id: bump
