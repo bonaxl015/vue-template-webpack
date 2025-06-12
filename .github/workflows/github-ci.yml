@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 permissions:
-  contents: read
+  contents: write
   issues: write
   security-events: write
 
@@ -74,15 +74,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
 
       - name: Snyk SCA Dependency Scan (yarn.lock)
         uses: snyk/actions/node@master
@@ -164,10 +155,33 @@ jobs:
       - name: Stop application locally
         run: yarn stop:build:prod
 
+  version:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    needs: [sonarqube, snyk-sca-analysis, owasp-dast-scan]
+    if: github.event_name == 'push'
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Bump patch version
+        id: bump
+        run: |
+          NEW_VERSION=$(npm version patch -m "chore: bump version to %s" | tr -d 'v')
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Push version bump commit and tag
+        run: git push origin HEAD:master --follow-tags
+
   docker:
     name: Docker Build and Push
     runs-on: ubuntu-latest
-    needs: [sonarqube, snyk-sca-analysis, owasp-dast-scan]
+    needs: version
     if: github.event_name == 'push'
     env:
       IMAGE_NAME: bonaxl015/vue-template
@@ -175,14 +189,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set DATE_TAG variable
-        run: echo "DATE_TAG=v$(date +%Y-%m-%d)" >> $GITHUB_ENV
+      - name: Set VERSION_TAG from version bump
+        run: echo "VERSION_TAG=${{ needs.version.outputs.version }}" >> $GITHUB_ENV
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t $IMAGE_NAME:$DATE_TAG .
+        run: docker build -t $IMAGE_NAME:v$VERSION_TAG .
 
       - name: Push Docker image
-        run: docker push $IMAGE_NAME:$DATE_TAG
+        run: docker push $IMAGE_NAME:v$VERSION_TAG
