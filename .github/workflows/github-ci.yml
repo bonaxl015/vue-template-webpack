@@ -173,7 +173,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://${{ secrets.GH_PUSH_PAT }}@github.com/bonaxl015/vue-template-webpack.git
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PUSH_PAT }}@github.com/bonaxl015/vue-template-webpack.git
           git checkout master
 
       - name: Debug git push permissions
