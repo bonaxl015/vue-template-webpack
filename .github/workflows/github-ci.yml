@@ -110,7 +110,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: vue-template-app
-          args: --file=Dockerfile --sarif-file-output=snyk-docker-scan.sarif
+          args: --file=Dockerfile
 
       - name: Check if SARIF file exists
         run: |
@@ -130,7 +130,7 @@ jobs:
       - name: Upload Docker SARIF to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: snyk-docker.sarif
+          sarif_file: snyk.sarif
 
   owasp-dast-scan:
     name: OWASP ZAP DAST Scan
