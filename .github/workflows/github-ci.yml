@@ -173,7 +173,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token: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@github.com/${{ github.repository }}
+          git remote set-url origin https://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@github.com/${{ github.repository }}
           git checkout master
 
       - name: Debug git push permissions
