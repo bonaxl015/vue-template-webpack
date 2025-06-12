@@ -179,7 +179,9 @@ jobs:
           git remote -v
 
       - name: Debug Git Remote
-        run: git remote get-url origin
+        run: |
+          git remote get-url origin
+          git branch --show-current
 
       - name: Bump patch version
         id: bump
