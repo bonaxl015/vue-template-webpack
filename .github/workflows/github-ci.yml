@@ -179,7 +179,7 @@ jobs:
           git remote -v
 
       - name: Debug Git Remote
-        run: git remote -v
+        run: git remote get-url origin
 
       - name: Bump patch version
         id: bump
@@ -187,10 +187,6 @@ jobs:
           NEW_VERSION=$(npm version patch -m "chore: bump version to %s" | tr -d 'v')
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-
-      - name: Test PAT identity
-        run: |
-          curl -H "Authorization: token ${{ secrets.GH_PUSH_PAT }}" https://api.github.com/user
 
       - name: Push version commit and tags
         run: git push origin HEAD:master --follow-tags
