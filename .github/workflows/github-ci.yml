@@ -168,19 +168,21 @@ jobs:
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      - name: Bump patch version
-        id: bump
+      - name: Setup git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.CLASSIC_PERSONAL_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Bump patch version
+        id: bump
+        run: |
           NEW_VERSION=$(npm version patch -m "chore: bump version to %s" | tr -d 'v')
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Push version commit and tags
-        run: |
-          git remote set-url origin https://${{ secrets.CLASSIC_PERSONAL_TOKEN }}@github.com/${{ github.repository }}
-          git push origin HEAD:master --follow-tags
+        run: git push origin HEAD:master --follow-tags
 
 
   docker:
