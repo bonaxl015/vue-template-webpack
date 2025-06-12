@@ -14,7 +14,7 @@ COPY src ./src
 RUN yarn build
 
 # Stage 2: Production Stage
-FROM nginx:alpine
+FROM nginx:1.28.0-alpine
 
 RUN mkdir -p /var/cache/nginx /var/run /var/log/nginx /run && \
     chown -R nginx:nginx /var/cache/nginx /var/run /var/log/nginx /run && \
