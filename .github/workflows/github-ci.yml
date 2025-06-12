@@ -158,7 +158,7 @@ jobs:
   version:
     name: Bump Version
     runs-on: ubuntu-latest
-    needs: build
+    # needs: build
     # if: github.event_name == 'push'
     outputs:
       version: ${{ steps.bump.outputs.version }}
@@ -170,9 +170,13 @@ jobs:
 
       - name: Setup git
         run: |
+          echo "Remote before:"
+          git remote -v
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.CLASSIC_PERSONAL_TOKEN }}@github.com/${{ github.repository }}
+          echo "Remote after:"
+          git remote -v
 
       - name: Debug Git Remote
         run: git remote -v
