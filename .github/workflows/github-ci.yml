@@ -89,7 +89,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: test --sarif-file-output=snyk-sca.sarif
+          args: --sarif-file-output=snyk-sca.sarif
 
       - name: Snyk Code Scan (source code analysis)
         uses: snyk/actions/node@master
