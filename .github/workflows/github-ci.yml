@@ -115,7 +115,7 @@ jobs:
       - name: Check if SARIF file exists
         run: |
           echo "Files in current directory:"
-          ls -al
+          ls -al | grep .sarif
 
       - name: Upload SCA SARIF to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
