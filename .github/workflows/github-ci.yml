@@ -188,8 +188,9 @@ jobs:
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Try dry-run git push
-        run: git push --dry-run origin HEAD:master
+      - name: Test PAT identity
+        run: |
+          curl -H "Authorization: token ${{ secrets.GH_PUSH_PAT }}" https://api.github.com/user
 
       - name: Push version commit and tags
         run: git push origin HEAD:master --follow-tags
