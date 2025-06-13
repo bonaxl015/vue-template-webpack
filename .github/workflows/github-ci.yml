@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 permissions:
-  contents: read
+  contents: write
   issues: write
   security-events: write
 
@@ -156,28 +156,36 @@ jobs:
         run: yarn stop:build:prod
 
   version:
-    name: Version Upgrade
+    name: Bump Version
     runs-on: ubuntu-latest
-
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Create tag
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
-          git push origin "v${{ github.run_number }}"
-
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
-          tag_name: 'v${{ github.run_number }}'
-          release_name: 'Release v${{ github.run_number }}'
-          body: 'Description of the changes in this release'
+          token: ${{ secrets.GH_PUSH_PAT }}
+
+      - name: Setup git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout master
+
+      - name: Bump patch version
+        id: bump
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+
+          NEW_VERSION=$(npm version patch -m "chore: bump version to %s" | tail -n1)
+          echo "New version: $NEW_VERSION"
+
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Push version bump commit and tag
+        run: |
+          git push origin HEAD:master --follow-tags
 
   docker:
     name: Docker Build and Push
@@ -192,14 +200,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set DATE_TAG variable
-        run: echo "DATE_TAG=v$(date +%Y-%m-%d)" >> $GITHUB_ENV
+      - name: Set VERSION_TAG from version bump
+        run: echo "VERSION_TAG=${{ needs.version.outputs.version }}" >> $GITHUB_ENV
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t $IMAGE_NAME:$DATE_TAG .
+        run: docker build -t $IMAGE_NAME:$VERSION_TAG .
 
       - name: Push Docker image
-        run: docker push $IMAGE_NAME:$DATE_TAG
+        run: docker push $IMAGE_NAME:$VERSION_TAG
