@@ -181,7 +181,7 @@ jobs:
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           echo "Current version: $CURRENT_VERSION"
 
-          NEW_VERSION=$(npm version patch -m "chore: bump version to %s" | tail -n1)
+          NEW_VERSION=$(npm version patch -m "chore: bump version to %s" | sed 's/^v//')
           echo "New version: $NEW_VERSION"
 
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
