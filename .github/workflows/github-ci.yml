@@ -155,6 +155,30 @@ jobs:
       - name: Stop application locally
         run: yarn stop:build:prod
 
+  version:
+    name: Version Upgrade
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
+          git push origin "v${{ github.run_number }}"
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        with:
+          tag_name: 'v${{ github.run_number }}'
+          release_name: 'Release v${{ github.run_number }}'
+          body: 'Description of the changes in this release'
+
   docker:
     name: Docker Build and Push
     runs-on: ubuntu-latest
