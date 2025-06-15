@@ -1,4 +1,25 @@
+# dependencies
 node_modules/
+
+# bundle analyzer
 bundle-analyzer/
+
+# production
 dist
+
+#jest
 coverage/
+
+# misc
+.DS_Store
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# cypress
+cypress/downloads
+cypress/videos
+cypress/screenshots
