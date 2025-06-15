@@ -3,7 +3,10 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+ENV CYPRESS_INSTALL_BINARY=0
+
 COPY package.json yarn.lock ./
+
 RUN yarn install --frozen-lockfile
 
 COPY tsconfig.json webpack.config.js ./

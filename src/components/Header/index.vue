@@ -3,7 +3,7 @@
     <template v-slot:prepend v-if="xs">
       <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </template>
-    <v-app-bar-title>Vue Template</v-app-bar-title>
+    <v-app-bar-title aria-label="logo-title">Vue Template</v-app-bar-title>
     <template v-slot:append>
       <NavigationButtons v-if="!xs" />
       <ThemeSwitch />

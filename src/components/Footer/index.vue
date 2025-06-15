@@ -1,7 +1,9 @@
 <template>
   <v-footer name="footer" app border>
     <v-row justify="center" no-gutters>
-      <v-col class="text-center">Copyright {{ year }}</v-col>
+      <v-col class="text-center" aria-label="footer-text">
+        Copyright {{ year }}
+      </v-col>
     </v-row>
   </v-footer>
 </template>

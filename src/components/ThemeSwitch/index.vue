@@ -1,6 +1,7 @@
 <template>
   <div class="switch-wrapper">
     <v-switch
+      aria-label="theme-switch"
       :prepend-icon="DayIcon"
       :append-icon="NightIcon"
       @change="toggleTheme"
