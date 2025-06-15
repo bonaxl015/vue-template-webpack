@@ -2,13 +2,15 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies
+# Skip cypress
+ENV CYPRESS_INSTALL_BINARY=0
+
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+
+RUN chown -R node:node /app \
+    yarn install
 
 COPY . .
-
-RUN chown -R node:node /app
 
 USER node
 

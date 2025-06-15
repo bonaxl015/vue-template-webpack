@@ -16,3 +16,6 @@ jest.setup.js
 **/*.test.tsx
 **/*.spec.ts
 **/*.spec.tsx
+
+cypress
+cypress.config.js
