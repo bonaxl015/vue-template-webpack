@@ -182,7 +182,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Start application locally
-        run: yarn start:build:prod & sleep 20
+        run: yarn start:build:prod & sleep 30
 
       - name: Run OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.14.0
