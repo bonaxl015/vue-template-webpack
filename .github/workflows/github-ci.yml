@@ -34,10 +34,40 @@ jobs:
     - name: Run tests
       run: yarn test
 
+  cypress:
+    name: Cypress integration tests
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run local server
+        run: |
+          yarn start:dev &
+          SERVER_PID=$!
+          npx wait-on http://localhost:7777
+          echo $SERVER_PID > server.pid
+
+      - name: Cypress run end-to-end tests
+        run: yarn cy:run
+
+      - name: Kill local server
+        run: kill $(cat server.pid)
+
   sonarqube:
     name: SonarQube Quality Check
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, cypress]
 
     steps:
       - name: Checkout repository
@@ -69,7 +99,7 @@ jobs:
   snyk-sca-analysis:
     name: Snyk Full Security Scan
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, cypress]
 
     steps:
       - name: Checkout code
@@ -127,7 +157,7 @@ jobs:
   owasp-dast-scan:
     name: OWASP ZAP DAST Scan
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, cypress]
 
     steps:
       - name: Checkout repository
