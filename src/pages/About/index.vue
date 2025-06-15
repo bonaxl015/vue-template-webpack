@@ -3,9 +3,13 @@
     <v-row justify="center">
       <v-col cols="12" md="8">
         <v-card class="pa-5">
-          <v-card-title class="text-h4 font-weight-bold">About Me</v-card-title>
-          <v-card-subtitle>Discover more about this project</v-card-subtitle>
-          <v-card-text class="mt-3">
+          <v-card-title class="text-h4 font-weight-bold" aria-label="heading">
+            About Me
+          </v-card-title>
+          <v-card-subtitle aria-label="sub-heading">
+            Discover more about this project
+          </v-card-subtitle>
+          <v-card-text class="mt-3" aria-label="content">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat,
               ipsa. Sapiente harum inventore deserunt facilis tempore dolore
@@ -33,16 +37,16 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-text>
-            <h3 class="text-h5 font-weight-bold">Author</h3>
+            <h3 class="text-h5 font-weight-bold" aria-label="author">Author</h3>
             <v-list>
               <v-list-item>
                 <template v-slot:prepend>
                   <v-avatar color="primary">B</v-avatar>
                 </template>
-                <v-list-item-title>
+                <v-list-item-title aria-label="author-name">
                   Bon Axl Feeser - Senior Software Engineer
                 </v-list-item-title>
-                <v-list-item-subtitle>
+                <v-list-item-subtitle aria-label="author-company">
                   Bally's Interactive
                 </v-list-item-subtitle>
               </v-list-item>
@@ -50,7 +54,9 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn color="primary" to="/">Go to Home</v-btn>
+            <v-btn color="primary" to="/" aria-label="home-button">
+              Go to Home
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
