@@ -53,7 +53,7 @@ jobs:
 
       - name: Run local server
         run: |
-          yarn start:dev
+          yarn start:dev &
           SERVER_PID=$!
           npx wait-on http://localhost:7777
           echo $SERVER_PID > server.pid
