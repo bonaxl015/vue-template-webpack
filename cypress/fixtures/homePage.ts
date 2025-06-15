@@ -1,5 +1,5 @@
 export const homePageData = {
-  headingText: ' Vue Templatesss ',
+  headingText: ' Vue Template ',
   subHeadingText: ' Libraries used in this project: ',
   libraryList: [
     'webpack',
