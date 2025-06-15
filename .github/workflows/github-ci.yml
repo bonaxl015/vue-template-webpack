@@ -52,10 +52,17 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Run local server
-        run: yarn start:dev
+        run: |
+          yarn start:dev
+          SERVER_PID=$!
+          npx wait-on http://localhost:7777
+          echo $SERVER_PID > server.pid
 
       - name: Cypress run end-to-end tests
         run: yarn cy:run
+
+      - name: Kill local server
+        run: kill $(cat server.pid)
 
   sonarqube:
     name: SonarQube Quality Check
