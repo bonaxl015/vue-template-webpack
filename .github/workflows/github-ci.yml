@@ -213,7 +213,7 @@ jobs:
   version:
     name: Bump Version
     runs-on: ubuntu-latest
-    needs: [sonarqube, snyk-sca-analysis, owasp-dast-scan]
+    needs: [sonarqube, snyk-sca-analysis, owasp-dast-scan, docker-image-scan]
     if: github.event_name == 'push'
     outputs:
       version: ${{ steps.bump.outputs.version }}
