@@ -130,22 +130,19 @@ jobs:
           command: code test
           args: --sarif-file-output=snyk-code.sarif
 
-      - name: Check if SARIF file exists
-        run: |
-          echo "Files in current directory:"
-          ls -al | grep .sarif
-
-      - name: Upload SCA SARIF to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload SCA SARIF artifacts
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          sarif_file: snyk-sca.sarif
+          name: snyk-sca-findings
+          path: snyk-sca.sarif
 
-      - name: Upload Code SARIF to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload Code SARIF artifacts
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          sarif_file: snyk-code.sarif
+          name: snyk-code-findings
+          path: snyk-code.sarif
 
   docker-image-scan:
     name: Docker Image Scan
